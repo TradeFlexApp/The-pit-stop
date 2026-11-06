@@ -1,0 +1,635 @@
+{
+  "_comment": "DRAFT content for The Pit Stop. Single source of truth for the static site AND for supabase/seed.sql (run `npm run db:seed:gen`). Prices are CAD cents and are PLACEHOLDERS for the owner to confirm. 1500 = single patty, 2500 = double, 3500 = triple. POSTAL CODE and PHONE are left blank/placeholder until the owner confirms them.",
+  "location": {
+    "slug": "fort-mcmurray",
+    "name": "The Pit Stop",
+    "address_line1": "530 MacKenzie Blvd",
+    "address_line2": null,
+    "city": "Fort McMurray",
+    "region": "AB",
+    "postal_code": "",
+    "country": "CA",
+    "phone": "(780) 000-0000",
+    "email": "hello@thepitstopymm.ca",
+    "landmark": "Across from the Oil Sands Discovery Centre",
+    "timezone": "America/Edmonton",
+    "google_maps_url": "https://www.google.com/maps/search/?api=1&query=530+MacKenzie+Blvd+Fort+McMurray+AB",
+    "doordash_url": null,
+    "skipthedishes_url": null,
+    "online_order_url": null,
+    "instagram_url": null,
+    "tiktok_url": null,
+    "facebook_url": null
+  },
+  "hours": [
+    {
+      "day_of_week": 0,
+      "opens_at": null,
+      "closes_at": null,
+      "is_closed": true
+    },
+    {
+      "day_of_week": 1,
+      "opens_at": "07:00",
+      "closes_at": "18:00",
+      "is_closed": false
+    },
+    {
+      "day_of_week": 2,
+      "opens_at": "07:00",
+      "closes_at": "18:00",
+      "is_closed": false
+    },
+    {
+      "day_of_week": 3,
+      "opens_at": "07:00",
+      "closes_at": "18:00",
+      "is_closed": false
+    },
+    {
+      "day_of_week": 4,
+      "opens_at": "07:00",
+      "closes_at": "18:00",
+      "is_closed": false
+    },
+    {
+      "day_of_week": 5,
+      "opens_at": "07:00",
+      "closes_at": "18:00",
+      "is_closed": false
+    },
+    {
+      "day_of_week": 6,
+      "opens_at": "08:00",
+      "closes_at": "17:00",
+      "is_closed": false
+    }
+  ],
+  "tiers": [
+    {
+      "code": "1500",
+      "label": "Single",
+      "blurb": "One smashed patty"
+    },
+    {
+      "code": "2500",
+      "label": "Double",
+      "blurb": "Two patties, twice the crust"
+    },
+    {
+      "code": "3500",
+      "label": "Triple",
+      "blurb": "Heavy duty"
+    }
+  ],
+  "categories": [
+    {
+      "slug": "smash-burgers",
+      "name": "Smash Burgers",
+      "description": "Alberta beef smashed thin on a ripping-hot griddle. Pick your engine size: 1500, 2500 or 3500.",
+      "sort_order": 1,
+      "items": [
+        {
+          "slug": "sierra",
+          "name": "The Sierra",
+          "description": "The work truck. Smashed patty, American cheese, pickles, grilled onions and Pit Stop sauce on a toasted potato bun.",
+          "price_cents": 1150,
+          "tiers": {
+            "1500": 1150,
+            "2500": 1500,
+            "3500": 1850
+          },
+          "calories": 640,
+          "tags": [
+            "bestseller"
+          ],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": "Fan favourite",
+          "is_featured": true,
+          "sort_order": 1,
+          "image": "/media/menu/sierra.jpg"
+        },
+        {
+          "slug": "denali",
+          "name": "The Denali",
+          "description": "Top trim. Smoked bacon, caramelized onions, aged cheddar, garlic aioli and a drizzle of maple on a brioche bun.",
+          "price_cents": 1350,
+          "tiers": {
+            "1500": 1350,
+            "2500": 1700,
+            "3500": 2050
+          },
+          "calories": 790,
+          "tags": [
+            "signature"
+          ],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": "Signature",
+          "is_featured": true,
+          "sort_order": 2,
+          "image": "/media/menu/denali.jpg"
+        },
+        {
+          "slug": "at4",
+          "name": "The AT4",
+          "description": "Built for rough roads. Pepper jack, fresh and crispy jalapeños, chipotle mayo and a hit of hot honey.",
+          "price_cents": 1300,
+          "tiers": {
+            "1500": 1300,
+            "2500": 1650,
+            "3500": 2000
+          },
+          "calories": 760,
+          "tags": [
+            "spicy"
+          ],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": "Spicy",
+          "is_featured": true,
+          "sort_order": 3,
+          "image": "/media/menu/at4.jpg"
+        },
+        {
+          "slug": "mushroom-swiss",
+          "name": "The Backroad",
+          "description": "Sautéed mushrooms, Swiss cheese, garlic aioli and crispy shallots. Quiet, smooth, no surprises.",
+          "price_cents": 1300,
+          "tiers": {
+            "1500": 1300,
+            "2500": 1650,
+            "3500": 2000
+          },
+          "calories": 720,
+          "tags": [],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 4
+        },
+        {
+          "slug": "hybrid",
+          "name": "The Hybrid",
+          "description": "Plant-based patty smashed the same way, American cheese, lettuce, tomato, pickles and Pit Stop sauce.",
+          "price_cents": 1250,
+          "tiers": {
+            "1500": 1250,
+            "2500": 1600,
+            "3500": 1950
+          },
+          "calories": 610,
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg",
+            "soy"
+          ],
+          "badge": "Veggie",
+          "is_featured": false,
+          "sort_order": 5
+        }
+      ]
+    },
+    {
+      "slug": "chicken",
+      "name": "Chicken",
+      "description": "Crispy, juicy and built like a burger.",
+      "sort_order": 2,
+      "items": [
+        {
+          "slug": "hauler",
+          "name": "The Hauler",
+          "description": "Buttermilk-fried chicken breast, shredded lettuce, pickles and garlic mayo on a toasted bun.",
+          "price_cents": 1300,
+          "tiers": null,
+          "calories": 720,
+          "tags": [],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 1
+        },
+        {
+          "slug": "redline-chicken",
+          "name": "The Redline",
+          "description": "Our fried chicken tossed in Nashville-style hot oil, slaw, pickles and comeback sauce.",
+          "price_cents": 1350,
+          "tiers": null,
+          "calories": 790,
+          "tags": [
+            "spicy"
+          ],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": "Spicy",
+          "is_featured": false,
+          "sort_order": 2
+        }
+      ]
+    },
+    {
+      "slug": "breakfast",
+      "name": "Breakfast Sandwiches",
+      "description": "Served from open until 11 AM. Fuel up before the day gets going.",
+      "sort_order": 3,
+      "items": [
+        {
+          "slug": "jump-start",
+          "name": "The Jump Start",
+          "description": "Folded egg and American cheese on a toasted English muffin. Simple, quick, gets you going.",
+          "price_cents": 650,
+          "tiers": null,
+          "calories": 380,
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 1
+        },
+        {
+          "slug": "turbo",
+          "name": "The Turbo",
+          "description": "Smoked bacon, folded egg and cheddar on a toasted brioche bun with chipotle mayo.",
+          "price_cents": 850,
+          "tiers": null,
+          "calories": 560,
+          "tags": [
+            "bestseller"
+          ],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": "Morning favourite",
+          "is_featured": true,
+          "sort_order": 2,
+          "image": "/media/menu/turbo.jpg"
+        },
+        {
+          "slug": "diesel",
+          "name": "The Diesel",
+          "description": "Sausage patty, folded egg, cheddar and a crispy hash brown on a brioche bun. Built to last till lunch.",
+          "price_cents": 950,
+          "tiers": null,
+          "calories": 690,
+          "tags": [],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 3
+        },
+        {
+          "slug": "breakfast-smash",
+          "name": "The Breakfast Smash",
+          "description": "A smashed beef patty, folded egg, American cheese, hash brown and maple aioli. Breakfast meets the griddle.",
+          "price_cents": 1100,
+          "tiers": null,
+          "calories": 740,
+          "tags": [
+            "signature"
+          ],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": "Signature",
+          "is_featured": false,
+          "sort_order": 4
+        }
+      ]
+    },
+    {
+      "slug": "sides",
+      "name": "Sides",
+      "description": "Fries, rings and the loaded stuff.",
+      "sort_order": 4,
+      "items": [
+        {
+          "slug": "pit-fries",
+          "name": "Pit Fries",
+          "description": "Crinkle-cut fries with sea salt. Add Pit Stop sauce for dipping.",
+          "price_cents": 450,
+          "tiers": null,
+          "calories": 380,
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 1
+        },
+        {
+          "slug": "loaded-pit-fries",
+          "name": "Loaded Pit Fries",
+          "description": "Fries buried under chopped smash patty, cheese sauce, grilled onions, pickles and Pit Stop sauce.",
+          "price_cents": 950,
+          "tiers": null,
+          "calories": 860,
+          "tags": [
+            "bestseller"
+          ],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": "Fan favourite",
+          "is_featured": true,
+          "sort_order": 2,
+          "image": "/media/menu/loaded-pit-fries.jpg"
+        },
+        {
+          "slug": "spare-tires",
+          "name": "Spare Tires",
+          "description": "Thick-cut beer-battered onion rings.",
+          "price_cents": 550,
+          "tiers": null,
+          "calories": 450,
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [
+            "gluten"
+          ],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 3
+        },
+        {
+          "slug": "lug-nuts",
+          "name": "Lug Nuts",
+          "description": "Crispy potato tots with your choice of dipping sauce.",
+          "price_cents": 500,
+          "tiers": null,
+          "calories": 420,
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 4
+        }
+      ]
+    },
+    {
+      "slug": "shakes",
+      "name": "Shakes",
+      "description": "Hand-spun with real ice cream.",
+      "sort_order": 5,
+      "items": [
+        {
+          "slug": "motor-oil-shake",
+          "name": "Motor Oil",
+          "description": "Thick chocolate shake with whipped cream. Looks the part, tastes way better.",
+          "price_cents": 700,
+          "tiers": null,
+          "calories": 690,
+          "tags": [
+            "vegetarian",
+            "bestseller"
+          ],
+          "allergens": [
+            "dairy"
+          ],
+          "badge": "Fan favourite",
+          "is_featured": false,
+          "sort_order": 1,
+          "image": "/media/menu/motor-oil-shake.jpg"
+        },
+        {
+          "slug": "chrome-shake",
+          "name": "Chrome",
+          "description": "Classic vanilla bean shake.",
+          "price_cents": 650,
+          "tiers": null,
+          "calories": 650,
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [
+            "dairy"
+          ],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 2
+        },
+        {
+          "slug": "redline-shake",
+          "name": "Redline",
+          "description": "Strawberry shake made with real berries.",
+          "price_cents": 650,
+          "tiers": null,
+          "calories": 640,
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [
+            "dairy"
+          ],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 3
+        }
+      ]
+    },
+    {
+      "slug": "drinks",
+      "name": "Drinks",
+      "description": "Coffee for the morning shift, cold drinks for the rest of it.",
+      "sort_order": 6,
+      "items": [
+        {
+          "slug": "high-octane-coffee",
+          "name": "High Octane Coffee",
+          "description": "Fresh-brewed drip coffee. Free refill with any breakfast sandwich before 11.",
+          "price_cents": 275,
+          "tiers": null,
+          "calories": 5,
+          "tags": [
+            "vegan"
+          ],
+          "allergens": [],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 1
+        },
+        {
+          "slug": "fountain-drink",
+          "name": "Fountain Drink",
+          "description": "Coke, Diet Coke, Sprite, Canada Dry, iced tea or lemonade.",
+          "price_cents": 300,
+          "tiers": null,
+          "calories": 0,
+          "tags": [],
+          "allergens": [],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 2
+        },
+        {
+          "slug": "bottled-water",
+          "name": "Bottled Water",
+          "description": null,
+          "price_cents": 225,
+          "tiers": null,
+          "calories": 0,
+          "tags": [
+            "vegan"
+          ],
+          "allergens": [],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 3
+        }
+      ]
+    },
+    {
+      "slug": "kids",
+      "name": "Kids",
+      "description": "For the pit crew in training.",
+      "sort_order": 7,
+      "items": [
+        {
+          "slug": "dipstick-meal",
+          "name": "Dipstick Meal",
+          "description": "Single smash burger or two chicken tenders with fries and a kids drink.",
+          "price_cents": 850,
+          "tiers": null,
+          "calories": 620,
+          "tags": [],
+          "allergens": [
+            "gluten",
+            "dairy",
+            "egg"
+          ],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 1
+        }
+      ]
+    }
+  ],
+  "burger_addons": {
+    "group_name": "Add-ons",
+    "applies_to_categories": [
+      "smash-burgers"
+    ],
+    "min_select": 0,
+    "max_select": 6,
+    "options": [
+      {
+        "name": "Extra Patty",
+        "price_delta_cents": 350
+      },
+      {
+        "name": "Smoked Bacon",
+        "price_delta_cents": 250
+      },
+      {
+        "name": "Extra Cheese",
+        "price_delta_cents": 125
+      },
+      {
+        "name": "Fried Egg",
+        "price_delta_cents": 175
+      },
+      {
+        "name": "Jalapeños",
+        "price_delta_cents": 100
+      },
+      {
+        "name": "Make it a Full Service (fries + drink)",
+        "price_delta_cents": 550
+      }
+    ]
+  },
+  "promotions": [
+    {
+      "title": "Breakfast till 11",
+      "body": "Egg sandwiches, hash browns and High Octane coffee from open until 11 AM, Monday to Saturday.",
+      "cta_label": "See breakfast",
+      "cta_url": "#menu",
+      "is_active": true,
+      "sort_order": 1
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Where exactly is The Pit Stop?",
+      "a": "530 MacKenzie Blvd in Fort McMurray, across from the Oil Sands Discovery Centre. Park out front and follow the smell of the griddle."
+    },
+    {
+      "q": "What does 1500, 2500 and 3500 mean?",
+      "a": "Engine size. A 1500 is a single smashed patty, a 2500 is a double, and a 3500 is a triple. Every burger comes in all three."
+    },
+    {
+      "q": "Do you serve breakfast?",
+      "a": "Yes. Breakfast sandwiches and coffee are on from open until 11 AM, Monday to Saturday. The regular menu runs all day."
+    },
+    {
+      "q": "Can I order ahead or get delivery?",
+      "a": "Call ahead for pickup any time we're open. SkipTheDishes and DoorDash are coming soon; the links will light up at the bottom of this page the day they go live."
+    },
+    {
+      "q": "Feeding a whole crew?",
+      "a": "We do group and office orders. Call the day before for anything over ten burgers and we'll have it hot and boxed when you pull in."
+    },
+    {
+      "q": "What about allergies?",
+      "a": "Allergens are listed on every menu item. Our kitchen shares equipment, so please tell us about any allergy when you order."
+    }
+  ],
+  "value_props": [
+    {
+      "title": "Smashed to order",
+      "body": "Fresh Alberta beef hits the griddle when you order it, never before. Crispy edges, juicy centre."
+    },
+    {
+      "title": "Breakfast till 11",
+      "body": "Egg sandwiches and hot coffee for the early shift, then burgers the rest of the day."
+    },
+    {
+      "title": "In and out fast",
+      "body": "A pit stop is supposed to be quick. Call ahead and your order is boxed when you pull in."
+    }
+  ]
+}

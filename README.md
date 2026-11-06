@@ -53,6 +53,27 @@ Free-tier note: Google may use free-tier prompts to improve its products, so the
 2. Add the four environment variables from `.env.example` for Production and Preview.
 3. Deploy. API routes run as Vercel Functions; no extra config needed.
 
+## Admin (self-updating site)
+
+Staff edit the menu, prices and sizes, photos, hours, delivery links, social links and promotions at `/admin`
+(there is a small "Admin" link in the website footer). Every save refreshes the public site immediately.
+
+Setting up the first admin:
+
+1. Supabase Dashboard → Authentication → Users → **Add user** (email + password, tick "auto confirm").
+2. Allow that email either with the env var `ADMIN_EMAILS=you@example.com,other@example.com` (local `.env.local` and Vercel),
+   or by running in the SQL editor:
+
+   ```sql
+   insert into public.admin_users (user_id, email)
+   select id, email from auth.users where email = 'you@example.com';
+   ```
+3. Sign in at `/admin/login`.
+
+Photos upload to the public Supabase Storage bucket `menu-images` (created by the migration).
+The website falls back to the bundled content in `src/data/menu.json` until the database has data,
+so run `npm run db:seed` once after `npm run db:push` to start from the draft menu.
+
 ## Database schema
 
 Defined in `supabase/migrations/20261105000000_init.sql`. Money is stored as integer cents.

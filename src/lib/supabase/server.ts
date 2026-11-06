@@ -10,8 +10,8 @@ import { publicEnv } from "@/lib/env";
  * Cookie handling follows the official @supabase/ssr pattern so auth can be added later.
  */
 export async function createClient() {
+  const cookieStore = await cookies(); // request-time first, so prerenders bail out before env is read
   const { url, publishableKey } = publicEnv();
-  const cookieStore = await cookies();
 
   return createServerClient<Database>(url, publishableKey, {
     cookies: {

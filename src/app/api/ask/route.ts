@@ -1,6 +1,6 @@
 import { NextResponse, after } from "next/server";
 import { z } from "zod";
-import { formatMenuForPrompt, getMenu, getPrimaryLocation } from "@/lib/data/menu";
+import { formatMenuForPrompt, getSiteContent } from "@/lib/data/menu";
 import { askMenuAssistant, GeminiRateLimitError } from "@/lib/gemini";
 import { createAdminClient } from "@/lib/supabase/admin";
 
@@ -12,7 +12,7 @@ const Body = z.object({
 /**
  * POST /api/ask  { question: string, sessionId?: string }
  * Answers a guest's question about the menu, hours or location with Gemini,
- * grounded in live data from Supabase. Returns { answer, model }.
+ * grounded in the live site content. Returns { answer, model }.
  */
 export async function POST(req: Request) {
   let json: unknown;
@@ -29,8 +29,8 @@ export async function POST(req: Request) {
   const started = Date.now();
 
   try {
-    const [menu, location] = await Promise.all([getMenu(), getPrimaryLocation()]);
-    const context = formatMenuForPrompt(menu, location);
+    const content = await getSiteContent();
+    const context = formatMenuForPrompt(content);
     const { answer, model } = await askMenuAssistant({ question, context });
 
     // Log after the response is sent so the guest never waits on it.
@@ -49,13 +49,7 @@ export async function POST(req: Request) {
   }
 }
 
-async function logChat(entry: {
-  session_id: string | null;
-  question: string;
-  answer: string;
-  model: string;
-  latency_ms: number;
-}) {
+async function logChat(entry: { session_id: string | null; question: string; answer: string; model: string; latency_ms: number }) {
   try {
     const { error } = await createAdminClient().from("ai_chat_logs").insert(entry);
     if (error) console.warn("[api/ask] could not log chat:", error.message);

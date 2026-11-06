@@ -130,13 +130,13 @@ create table public.promotions (
 comment on table public.promotions is 'Banners / specials shown on the site while active and within the date window.';
 
 create table public.newsletter_subscribers (
-  id               uuid primary key default gen_random_uuid(),
-  email            text not null,
-  source           text,                          -- 'footer', 'checkout', ...
-  subscribed_at    timestamptz not null default now(),
-  unsubscribed_at  timestamptz
+  id                uuid primary key default gen_random_uuid(),
+  email             text not null,
+  email_normalized  text generated always as (lower(email)) stored unique,  -- plain unique key so upserts can target it
+  source            text,                          -- 'footer', 'checkout', ...
+  subscribed_at     timestamptz not null default now(),
+  unsubscribed_at   timestamptz
 );
-create unique index newsletter_subscribers_email_key on public.newsletter_subscribers (lower(email));
 
 -- ---------- orders -------------------------------------------------------------
 create table public.orders (
@@ -234,7 +234,8 @@ create policy "Public can read business hours"
 create policy "Public can read active categories"
   on public.menu_categories for select to anon, authenticated using (is_active);
 create policy "Public can read menu items"
-  on public.menu_items for select to anon, authenticated using (true);
+  on public.menu_items for select to anon, authenticated
+  using (exists (select 1 from public.menu_categories c where c.id = category_id and c.is_active));
 create policy "Public can read modifier groups"
   on public.menu_modifier_groups for select to anon, authenticated using (true);
 create policy "Public can read modifiers"

@@ -9,7 +9,7 @@ const Body = z.object({
   subject: z.string().trim().max(200).optional(),
   message: z.string().trim().min(5, "Please write a short message.").max(4000),
   // Honeypot: real users never fill this hidden field.
-  website: z.string().max(0).optional(),
+  website: z.string().max(200).optional(),
 });
 
 /**

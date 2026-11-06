@@ -18,7 +18,7 @@ export default async function MenuPage() {
     <>
       <Header solid />
       <main className="pt-16 md:pt-20">
-        <MenuSection categories={content.categories} tiers={content.tiers} />
+        <MenuSection categories={content.categories} tiers={content.tiers} level={1} />
         <DeliveryPlatforms location={content.location} />
       </main>
       <Footer content={content} />

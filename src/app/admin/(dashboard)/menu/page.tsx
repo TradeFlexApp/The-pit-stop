@@ -55,9 +55,9 @@ async function MenuAdmin({ searchParams }: { searchParams: Search }) {
                           <Link href={`/admin/menu/${i.id}`} className="font-semibold hover:underline">
                             {i.name}
                           </Link>
-                          {i.badge && <span className="rounded-full bg-brand px-2 py-0.5 text-[11px] font-bold uppercase">{i.badge}</span>}
-                          {!i.is_available && <span className="rounded-full bg-steel px-2 py-0.5 text-[11px] font-bold uppercase text-graphite">Sold out</span>}
-                          {i.is_featured && <span className="rounded-full border border-line px-2 py-0.5 text-[11px] font-bold uppercase text-graphite">Featured</span>}
+                          {i.badge && <span className="rounded-full bg-brand px-2 py-0.5 text-xs font-bold uppercase">{i.badge}</span>}
+                          {!i.is_available && <span className="rounded-full bg-steel px-2 py-0.5 text-xs font-bold uppercase text-graphite">Sold out</span>}
+                          {i.is_featured && <span className="rounded-full border border-line px-2 py-0.5 text-xs font-bold uppercase text-graphite">Featured</span>}
                         </div>
                         <p className="text-sm text-graphite">
                           {tiers.length ? tiers.map((t) => `${t.code} ${formatPrice(t.price_cents)}`).join(" · ") : formatPrice(i.price_cents)}

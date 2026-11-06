@@ -63,7 +63,7 @@ export function DeliveryPlatforms({ location }: { location: LocationView }) {
                     href={p.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={clsx("inline-flex h-12 w-full items-center justify-center rounded-full px-6 text-[15px] font-semibold text-white transition-opacity hover:opacity-90", p.color)}
+                    className={clsx("inline-flex h-12 w-full items-center justify-center rounded-full px-6 text-[15px] font-semibold text-ink transition hover:brightness-95", p.color)}
                   >
                     Order on {p.name}
                   </a>

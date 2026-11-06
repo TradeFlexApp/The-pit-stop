@@ -8,8 +8,8 @@ import { Wordmark } from "./Wordmark";
 import { Pill } from "./Pill";
 
 const NAV = [
-  { label: "Menu", href: "/#menu" },
-  { label: "Breakfast", href: "/#breakfast" },
+  { label: "Menu", href: "/menu" },
+  { label: "Breakfast", href: "/menu#breakfast" },
   { label: "Engine sizes", href: "/#sizes" },
   { label: "Location", href: "/#location" },
   { label: "FAQ", href: "/#faq" },
@@ -33,7 +33,7 @@ export function Header({ solid = false }: { solid?: boolean }) {
       <div className="mx-auto grid h-16 max-w-7xl grid-cols-3 items-center px-4 md:h-20 md:grid-cols-[auto_1fr_auto] md:px-8">
         <button
           type="button"
-          className="order-1 justify-self-start text-white md:hidden"
+          className="order-1 -ml-2 inline-flex size-11 items-center justify-center rounded-full text-white hover:bg-white/10 md:hidden"
           onClick={() => setOpen((o) => !o)}
           aria-expanded={open}
           aria-controls="mobile-nav"
@@ -48,7 +48,7 @@ export function Header({ solid = false }: { solid?: boolean }) {
 
         <nav className="hidden md:order-2 md:flex md:justify-center md:gap-8" aria-label="Primary">
           {NAV.map((n) => (
-            <Link key={n.href} href={n.href} className="text-sm font-semibold text-white transition-colors hover:text-brand">
+            <Link key={n.href} href={n.href} className="rounded-full px-1 py-2 text-sm font-semibold text-white transition-colors hover:text-brand">
               {n.label}
             </Link>
           ))}
@@ -66,7 +66,7 @@ export function Header({ solid = false }: { solid?: boolean }) {
           <ul className="flex flex-col gap-1">
             {NAV.map((n) => (
               <li key={n.href}>
-                <Link href={n.href} onClick={() => setOpen(false)} className="display block py-2 text-3xl text-white hover:text-brand">
+                <Link href={n.href} onClick={() => setOpen(false)} className="display block py-3 text-3xl text-white hover:text-brand">
                   {n.label}
                 </Link>
               </li>

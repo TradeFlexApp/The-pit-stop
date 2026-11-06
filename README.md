@@ -37,7 +37,7 @@ Check wiring at `http://localhost:3000/api/health`. It reports booleans for `sup
    npm run db:types    # regenerates src/types/database.ts from the live schema
    ```
 
-   Sample data uses placeholder prices, address and hours. Edit them in the Supabase Table Editor or in `supabase/seed.sql` and re-run `npm run db:seed` (it upserts).
+   Site content lives in `src/data/menu.json` (single source of truth). Edit it, run `npm run db:seed:gen` to regenerate `supabase/seed.sql`, then `npm run db:seed` (it upserts). Do not hand-edit `seed.sql`. Day-to-day changes are made in `/admin`; re-running `db:seed` would overwrite them with the JSON, so only use it for the initial load.
 
 ### 2. Gemini (free tier)
 
@@ -108,7 +108,8 @@ src/lib/env.server.ts    server secrets (Supabase secret key, Gemini key/model)
 src/lib/supabase/        client.ts (browser), server.ts (RSC/route), admin.ts (secret key)
 src/lib/data/menu.ts     typed menu/location/promotion queries + prompt formatter
 src/lib/gemini.ts        Gemini client and the menu-assistant prompt
-src/types/database.ts    Supabase types (regenerate with npm run db:types)
+src/data/menu.json       site content (single source of truth; generates seed.sql)
+src/types/database.ts    app-facing types; src/types/supabase.ts is generated (npm run db:types)
 supabase/migrations/     schema; supabase/seed.sql sample data
 ```
 

@@ -15,6 +15,8 @@ export function AskWidget() {
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
   const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const sessionRef = useRef<string>("");
 
   useEffect(() => {
@@ -23,10 +25,18 @@ export function AskWidget() {
   useEffect(() => {
     listRef.current?.scrollTo({ top: listRef.current.scrollHeight, behavior: "smooth" });
   }, [messages, open]);
+  useEffect(() => {
+    if (open) inputRef.current?.focus();
+  }, [open]);
+
+  function close() {
+    setOpen(false);
+    toggleRef.current?.focus();
+  }
 
   async function ask(question: string) {
     const q = question.trim();
-    if (!q || busy) return;
+    if (!q || busy || !open) return;
     setInput("");
     setMessages((m) => [...m, { role: "guest", text: q }]);
     setBusy(true);
@@ -48,8 +58,9 @@ export function AskWidget() {
   return (
     <>
       <button
+        ref={toggleRef}
         type="button"
-        onClick={() => setOpen((o) => !o)}
+        onClick={() => (open ? close() : setOpen(true))}
         aria-expanded={open}
         aria-controls="ask-panel"
         className="fixed bottom-24 right-4 z-40 inline-flex h-12 items-center gap-2 rounded-full bg-brand px-4 font-semibold text-ink shadow-lg shadow-black/20 transition hover:bg-brand-deep md:bottom-6 md:right-6"
@@ -63,25 +74,33 @@ export function AskWidget() {
         id="ask-panel"
         role="dialog"
         aria-label="Ask about the menu"
+        inert={!open}
+        onKeyDown={(e) => {
+          if (e.key === "Escape") close();
+        }}
         className={clsx(
-          "fixed bottom-40 right-4 z-40 flex w-[min(92vw,380px)] flex-col overflow-hidden rounded-3xl bg-white text-ink shadow-2xl ring-1 ring-black/10 transition md:bottom-24 md:right-6",
+          "fixed bottom-40 right-4 z-40 flex max-h-[calc(100dvh-11.5rem)] w-[min(92vw,380px)] flex-col overflow-hidden rounded-3xl bg-white text-ink shadow-2xl ring-1 ring-black/10 transition md:bottom-24 md:right-6 md:max-h-[min(640px,calc(100dvh-7.5rem))]",
           open ? "opacity-100" : "pointer-events-none translate-y-2 opacity-0"
         )}
       >
         <div className="flex items-center justify-between bg-ink px-4 py-3 text-white">
           <span className="display text-2xl">Ask The Pit Stop</span>
-          <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="rounded-full p-1 hover:bg-white/10">
+          <button type="button" onClick={close} aria-label="Close" className="rounded-full p-1 hover:bg-white/10">
             <X className="size-5" />
           </button>
         </div>
 
-        <div ref={listRef} className="max-h-80 space-y-3 overflow-y-auto px-4 py-4 text-sm">
+        <div ref={listRef} role="log" aria-live="polite" aria-relevant="additions" className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4 text-sm">
           {messages.map((m, i) => (
             <div key={i} className={clsx("max-w-[85%] rounded-2xl px-3 py-2", m.role === "guest" ? "ml-auto bg-brand text-ink" : "bg-mist text-ink")}>
               {m.text}
             </div>
           ))}
-          {busy && <div className="w-16 rounded-2xl bg-mist px-3 py-2 text-muted">…</div>}
+          {busy && (
+            <div aria-hidden="true" className="w-16 rounded-2xl bg-mist px-3 py-2 text-muted">
+              …
+            </div>
+          )}
           {messages.length === 1 && (
             <div className="flex flex-wrap gap-2 pt-1">
               {SUGGESTIONS.map((s) => (
@@ -92,6 +111,9 @@ export function AskWidget() {
             </div>
           )}
         </div>
+        <p role="status" aria-live="polite" className="sr-only">
+          {busy ? "Thinking…" : ""}
+        </p>
 
         <form
           className="flex items-center gap-2 border-t border-line p-3"
@@ -101,6 +123,7 @@ export function AskWidget() {
           }}
         >
           <input
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
             placeholder="Ask about a burger, allergens, hours…"
@@ -112,7 +135,7 @@ export function AskWidget() {
             <Send className="size-4" />
           </button>
         </form>
-        <p className="px-4 pb-3 text-[11px] text-muted">Answers come from our menu data and may occasionally be off. Please confirm allergies with staff.</p>
+        <p className="px-4 pb-3 text-xs text-muted">Answers come from our menu data and may occasionally be off. Please confirm allergies with staff.</p>
       </div>
     </>
   );

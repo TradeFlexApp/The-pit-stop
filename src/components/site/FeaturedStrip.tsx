@@ -18,18 +18,18 @@ export function FeaturedStrip({ items }: { items: MenuItemView[] }) {
           <h2 id="featured-heading" className="display text-5xl md:text-6xl">
             Featured
           </h2>
-          <Pill href="/#menu" tone="outline" chevron>
+          <Pill href="/menu" tone="outline" chevron>
             View menu
           </Pill>
         </div>
 
-        <ul className="-mx-5 flex snap-x gap-4 overflow-x-auto px-5 pb-2 md:mx-0 md:px-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        <ul className="-mx-5 flex snap-x gap-4 overflow-x-auto px-5 pb-2 md:mx-0 md:grid md:grid-cols-3 md:gap-6 md:overflow-visible md:px-0 md:pb-0 xl:grid-cols-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {items.map((item) => (
-            <li key={item.id} className="w-[72vw] shrink-0 snap-start sm:w-[300px]">
-              <Link href={`/#menu-${item.slug}`} className="group block">
+            <li key={item.id} className="w-[72vw] shrink-0 snap-start sm:w-[300px] md:w-auto">
+              <Link href={`/menu#menu-${item.slug}`} className="group block">
                 <div className="relative aspect-square overflow-hidden rounded-2xl bg-mist">
                   {item.image_url ? (
-                    <Image src={item.image_url} alt={item.name} fill sizes="(min-width: 640px) 300px, 72vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+                    <Image src={item.image_url} alt="" fill sizes="(min-width: 1280px) 224px, (min-width: 768px) 33vw, (min-width: 640px) 300px, 72vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
                   ) : (
                     <div className="display absolute inset-0 flex items-center justify-center p-6 text-center text-3xl text-graphite">{item.name}</div>
                   )}

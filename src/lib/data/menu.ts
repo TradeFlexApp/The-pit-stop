@@ -21,6 +21,7 @@ export async function getSiteContent(): Promise<SiteContent> {
     return await loadFromSupabase();
   } catch (err) {
     console.warn("[content] Supabase unavailable, serving static content:", err instanceof Error ? err.message : err);
+    cacheLife("minutes"); // retry the database soon instead of pinning the fallback for an hour
     return staticContent;
   }
 }
@@ -138,6 +139,8 @@ export function formatMenuForPrompt(content: SiteContent): string {
   }
   lines.push(`BURGER SIZES: ${tiers.map((t) => `${t.code} = ${t.label} (${t.blurb})`).join("; ")}.`);
   lines.push("DELIVERY: " + (location.doordash_url || location.skipthedishes_url ? "available through the delivery apps linked on the website." : "SkipTheDishes and DoorDash are coming soon; pickup by phone is available now."));
+  if (content.addons.length) lines.push(`BURGER ADD-ONS (any smash burger): ${content.addons.map((a) => `${a.name} +${formatPrice(a.price_delta_cents)}`).join("; ")}.`);
+  if (location.email) lines.push(`EMAIL: ${location.email}`);
   lines.push("");
   lines.push("MENU (prices in CAD):");
   for (const category of categories) {
@@ -154,6 +157,11 @@ export function formatMenuForPrompt(content: SiteContent): string {
       ].filter(Boolean);
       lines.push(`- ${item.name} (${price})${item.description ? `: ${item.description}` : ""}${flags.length ? ` [${flags.join("; ")}]` : ""}`);
     }
+  }
+  if (content.faqs.length) {
+    lines.push("");
+    lines.push("POLICIES / FAQ:");
+    for (const f of content.faqs) lines.push(`- Q: ${f.q} A: ${f.a}`);
   }
   return lines.join("\n");
 }

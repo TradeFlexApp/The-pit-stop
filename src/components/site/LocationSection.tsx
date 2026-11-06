@@ -67,7 +67,7 @@ export function LocationSection({ location }: { location: LocationView }) {
             <div className="my-6 border-t border-line" />
 
             <details className="group">
-              <summary className="flex cursor-pointer items-center justify-between font-semibold">
+              <summary className="flex min-h-11 cursor-pointer items-center justify-between font-semibold">
                 <TodayHours hours={location.hours} timezone={location.timezone} />
                 <span className="text-sm font-medium text-muted group-open:hidden">See hours</span>
                 <span className="hidden text-sm font-medium text-muted group-open:inline">Hide hours</span>

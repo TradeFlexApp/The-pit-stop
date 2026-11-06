@@ -49,7 +49,7 @@ async function LoginForm({ searchParams }: { searchParams: Search }) {
         Sign in
       </Button>
       <p className="text-center text-xs text-muted">
-        <Link href="/" className="hover:underline">
+        <Link href="/" className="inline-block py-2 hover:underline">
           Back to the website
         </Link>
       </p>

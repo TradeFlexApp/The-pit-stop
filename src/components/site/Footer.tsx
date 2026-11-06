@@ -4,8 +4,8 @@ import { Wordmark } from "./Wordmark";
 import { Year } from "./Year";
 
 const NAV = [
-  { label: "Menu", href: "/#menu" },
-  { label: "Breakfast", href: "/#breakfast" },
+  { label: "Menu", href: "/menu" },
+  { label: "Breakfast", href: "/menu#breakfast" },
   { label: "Engine sizes", href: "/#sizes" },
   { label: "Location & hours", href: "/#location" },
   { label: "Order & delivery", href: "/#order" },
@@ -34,10 +34,10 @@ export function Footer({ content }: { content: SiteContent }) {
 
         <div className="mt-10 grid gap-10 md:grid-cols-[1fr_1fr_1.2fr]">
           <nav aria-label="Footer">
-            <ul className="space-y-2 text-lg">
+            <ul className="text-lg">
               {NAV.map((n) => (
                 <li key={n.href}>
-                  <Link href={n.href} className="hover:underline">
+                  <Link href={n.href} className="inline-block py-2 hover:underline">
                     {n.label}
                   </Link>
                 </li>
@@ -47,7 +47,7 @@ export function Footer({ content }: { content: SiteContent }) {
               <ul className="mt-6 flex flex-wrap gap-4">
                 {socials.map(({ label, href }) => (
                   <li key={label}>
-                    <a href={href!} target="_blank" rel="noopener noreferrer" className="font-semibold text-graphite hover:text-ink">
+                    <a href={href!} target="_blank" rel="noopener noreferrer" className="inline-block py-2 font-semibold text-graphite hover:text-ink">
                       {label}
                     </a>
                   </li>
@@ -74,16 +74,16 @@ export function Footer({ content }: { content: SiteContent }) {
               if (!items.length) return null;
               return (
                 <details key={g.label} className="group py-3">
-                  <summary className="flex cursor-pointer items-center justify-between text-lg">
+                  <summary className="flex min-h-11 cursor-pointer items-center justify-between text-lg">
                     {g.label}
                     <span className="text-muted transition-transform group-open:rotate-180" aria-hidden="true">
                       ⌄
                     </span>
                   </summary>
-                  <ul className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm text-graphite">
+                  <ul className="mt-2 grid grid-cols-2 gap-x-4 text-sm text-graphite">
                     {items.map((i) => (
                       <li key={i.id}>
-                        <Link href={`/#menu-${i.slug}`} className="hover:underline">
+                        <Link href={`/menu#menu-${i.slug}`} className="inline-block py-1.5 hover:underline">
                           {i.name}
                         </Link>
                       </li>
@@ -99,7 +99,7 @@ export function Footer({ content }: { content: SiteContent }) {
           <p>© <Year /> The Pit Stop. All rights reserved.</p>
           <p className="flex items-center gap-4">
             <span>Smashed in Fort McMurray, Alberta.</span>
-            <Link href="/admin" className="text-xs text-muted/80 hover:underline">
+            <Link href="/admin" className="inline-block py-2 text-xs text-muted/80 hover:underline">
               Admin
             </Link>
           </p>

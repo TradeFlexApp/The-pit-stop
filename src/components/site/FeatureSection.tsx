@@ -29,7 +29,7 @@ export function FeatureSection({
           <Image src={image.src} alt={image.alt} fill sizes="(min-width: 768px) 50vw, 100vw" className="object-cover" />
         </div>
         <div className="px-5 pb-14 md:px-0 md:pb-0">
-          {eyebrow && <p className="mb-3 text-sm font-bold uppercase tracking-[0.2em] text-brand">{eyebrow}</p>}
+          {eyebrow && <p className={clsx("mb-3 text-sm font-bold uppercase tracking-[0.2em]", dark ? "text-brand" : "inline-block rounded-full bg-brand px-3 py-1 text-ink")}>{eyebrow}</p>}
           <h2 className="display text-5xl md:text-7xl">{title}</h2>
           <p className={clsx("mt-5 max-w-xl text-lg leading-relaxed", dark ? "text-white/85" : "text-graphite")}>{text}</p>
           <div className="mt-8">

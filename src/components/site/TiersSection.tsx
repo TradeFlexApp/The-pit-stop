@@ -43,7 +43,7 @@ export function TiersSection({ tiers, example, addons }: { tiers: TierInfo[]; ex
         )}
 
         <div className="mt-8">
-          <Pill href="/#menu" tone="light" chevron>
+          <Pill href="/menu" tone="light" chevron>
             See the full menu
           </Pill>
         </div>

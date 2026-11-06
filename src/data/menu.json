@@ -86,7 +86,7 @@
     {
       "slug": "smash-burgers",
       "name": "Smash Burgers",
-      "description": "Alberta beef smashed thin on a ripping-hot griddle. Pick your engine size: 1500, 2500 or 3500.",
+      "description": "Fresh beef smashed thin on a ripping-hot griddle. Pick your engine size: 1500, 2500 or 3500.",
       "sort_order": 1,
       "items": [
         {
@@ -332,6 +332,21 @@
           "badge": "Signature",
           "is_featured": false,
           "sort_order": 4
+        },
+        {
+          "slug": "hash-brown",
+          "name": "Hash Brown",
+          "description": "Crispy hash brown patty. Add one to any breakfast sandwich.",
+          "price_cents": 250,
+          "tiers": null,
+          "calories": 150,
+          "tags": [
+            "vegetarian"
+          ],
+          "allergens": [],
+          "badge": null,
+          "is_featured": false,
+          "sort_order": 5
         }
       ]
     },
@@ -453,8 +468,8 @@
           "sort_order": 2
         },
         {
-          "slug": "redline-shake",
-          "name": "Redline",
+          "slug": "tail-light-shake",
+          "name": "Tail Light",
           "description": "Strawberry shake made with real berries.",
           "price_cents": 650,
           "tiers": null,
@@ -621,7 +636,7 @@
   "value_props": [
     {
       "title": "Smashed to order",
-      "body": "Fresh Alberta beef hits the griddle when you order it, never before. Crispy edges, juicy centre."
+      "body": "Fresh beef hits the griddle when you order it, never before. Crispy edges, juicy centre."
     },
     {
       "title": "Breakfast till 11",

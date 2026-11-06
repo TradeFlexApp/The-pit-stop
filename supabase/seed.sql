@@ -34,7 +34,7 @@ on conflict (location_id, day_of_week) do update
   set opens_at = excluded.opens_at, closes_at = excluded.closes_at, is_closed = excluded.is_closed;
 
 insert into public.menu_categories (slug, name, description, sort_order) values
-  ('smash-burgers', 'Smash Burgers', 'Alberta beef smashed thin on a ripping-hot griddle. Pick your engine size: 1500, 2500 or 3500.', 1),
+  ('smash-burgers', 'Smash Burgers', 'Fresh beef smashed thin on a ripping-hot griddle. Pick your engine size: 1500, 2500 or 3500.', 1),
   ('chicken', 'Chicken', 'Crispy, juicy and built like a burger.', 2),
   ('breakfast', 'Breakfast Sandwiches', 'Served from open until 11 AM. Fuel up before the day gets going.', 3),
   ('sides', 'Sides', 'Fries, rings and the loaded stuff.', 4),
@@ -59,13 +59,14 @@ from (values
   ('breakfast', 'turbo', 'The Turbo', 'Smoked bacon, folded egg and cheddar on a toasted brioche bun with chipotle mayo.', 850, '/media/menu/turbo.jpg', 560, '{"bestseller"}'::text[], '{"gluten","dairy","egg"}'::text[], 'Morning favourite', true, 2),
   ('breakfast', 'diesel', 'The Diesel', 'Sausage patty, folded egg, cheddar and a crispy hash brown on a brioche bun. Built to last till lunch.', 950, null, 690, '{}'::text[], '{"gluten","dairy","egg"}'::text[], null, false, 3),
   ('breakfast', 'breakfast-smash', 'The Breakfast Smash', 'A smashed beef patty, folded egg, American cheese, hash brown and maple aioli. Breakfast meets the griddle.', 1100, null, 740, '{"signature"}'::text[], '{"gluten","dairy","egg"}'::text[], 'Signature', false, 4),
+  ('breakfast', 'hash-brown', 'Hash Brown', 'Crispy hash brown patty. Add one to any breakfast sandwich.', 250, null, 150, '{"vegetarian"}'::text[], '{}'::text[], null, false, 5),
   ('sides', 'pit-fries', 'Pit Fries', 'Crinkle-cut fries with sea salt. Add Pit Stop sauce for dipping.', 450, null, 380, '{"vegetarian"}'::text[], '{}'::text[], null, false, 1),
   ('sides', 'loaded-pit-fries', 'Loaded Pit Fries', 'Fries buried under chopped smash patty, cheese sauce, grilled onions, pickles and Pit Stop sauce.', 950, '/media/menu/loaded-pit-fries.jpg', 860, '{"bestseller"}'::text[], '{"gluten","dairy","egg"}'::text[], 'Fan favourite', true, 2),
   ('sides', 'spare-tires', 'Spare Tires', 'Thick-cut beer-battered onion rings.', 550, null, 450, '{"vegetarian"}'::text[], '{"gluten"}'::text[], null, false, 3),
   ('sides', 'lug-nuts', 'Lug Nuts', 'Crispy potato tots with your choice of dipping sauce.', 500, null, 420, '{"vegetarian"}'::text[], '{}'::text[], null, false, 4),
   ('shakes', 'motor-oil-shake', 'Motor Oil', 'Thick chocolate shake with whipped cream. Looks the part, tastes way better.', 700, '/media/menu/motor-oil-shake.jpg', 690, '{"vegetarian","bestseller"}'::text[], '{"dairy"}'::text[], 'Fan favourite', false, 1),
   ('shakes', 'chrome-shake', 'Chrome', 'Classic vanilla bean shake.', 650, null, 650, '{"vegetarian"}'::text[], '{"dairy"}'::text[], null, false, 2),
-  ('shakes', 'redline-shake', 'Redline', 'Strawberry shake made with real berries.', 650, null, 640, '{"vegetarian"}'::text[], '{"dairy"}'::text[], null, false, 3),
+  ('shakes', 'tail-light-shake', 'Tail Light', 'Strawberry shake made with real berries.', 650, null, 640, '{"vegetarian"}'::text[], '{"dairy"}'::text[], null, false, 3),
   ('drinks', 'high-octane-coffee', 'High Octane Coffee', 'Fresh-brewed drip coffee. Free refill with any breakfast sandwich before 11.', 275, null, 5, '{"vegan"}'::text[], '{}'::text[], null, false, 1),
   ('drinks', 'fountain-drink', 'Fountain Drink', 'Coke, Diet Coke, Sprite, Canada Dry, iced tea or lemonade.', 300, null, 0, '{}'::text[], '{}'::text[], null, false, 2),
   ('drinks', 'bottled-water', 'Bottled Water', null, 225, null, 0, '{"vegan"}'::text[], '{}'::text[], null, false, 3),

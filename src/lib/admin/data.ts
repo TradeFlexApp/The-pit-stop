@@ -23,7 +23,9 @@ export async function adminItems(): Promise<AdminItem[]> {
 
 export async function adminItem(id: string): Promise<AdminItem | null> {
   const admin = createAdminClient();
-  const data = must(await admin.from("menu_items").select("*, menu_item_tiers(*), menu_categories(name)").eq("id", id).maybeSingle());
+  const res = await admin.from("menu_items").select("*, menu_item_tiers(*), menu_categories(name)").eq("id", id).maybeSingle();
+  if (res.error?.code === "22P02") return null; // not a uuid
+  const data = must(res);
   return (data as unknown as AdminItem | null) ?? null;
 }
 

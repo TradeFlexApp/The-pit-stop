@@ -7,6 +7,8 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { isAllowedAdmin, requireAdmin } from "@/lib/admin/auth";
 import type { InsertDto } from "@/types/database";
+import { IMAGE_TYPES, MAX_IMAGE_BYTES, MAX_IMAGE_LABEL } from "@/lib/admin/limits";
+import { localInputToIso } from "@/lib/zoned-time";
 
 const CONTENT_TAG = "site-content";
 const TIERS = [
@@ -46,6 +48,14 @@ const urlOrNull = (s: string) => {
   if (!ok.success) throw new Error(`"${s.slice(0, 40)}" is not a valid link (include https://).`);
   return s;
 };
+/** Site-relative paths ("/menu#breakfast") or full https:// links only. */
+const ctaUrlOrNull = (s: string) => {
+  if (!s) return null;
+  if (/^\/[^\/\\]/.test(s) || s.startsWith("#")) return s;
+  const ok = z.url({ protocol: /^https?$/ }).safeParse(s);
+  if (!ok.success) throw new Error("The button link must start with / (a page on this site) or https://.");
+  return s;
+};
 function go(path: string, params: Record<string, string>): never {
   const q = new URLSearchParams(params).toString();
   redirect(q ? `${path}?${q}` : path);
@@ -54,11 +64,8 @@ function message(e: unknown, fallback: string) {
   return e instanceof Error && e.message ? e.message : fallback;
 }
 
-const IMAGE_TYPES: Record<string, string> = { "image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/avif": "avif" };
-const MAX_IMAGE = 8 * 1024 * 1024;
-
 async function uploadImage(file: File, folder: string, slug: string): Promise<string> {
-  if (file.size > MAX_IMAGE) throw new Error("Photos must be under 8 MB.");
+  if (file.size > MAX_IMAGE_BYTES) throw new Error(`Photos must be under ${MAX_IMAGE_LABEL}.`);
   const ext = IMAGE_TYPES[file.type];
   if (!ext) throw new Error("Use a JPG, PNG, WEBP or AVIF photo.");
   const admin = createAdminClient();
@@ -73,19 +80,19 @@ async function uploadImage(file: File, folder: string, slug: string): Promise<st
 export async function signIn(formData: FormData) {
   const email = str(formData, "email").toLowerCase();
   const password = str(formData, "password");
-  let error: string | null = null;
+  let code: string | null = null;
   if (!email || !password) {
-    error = "Enter your email and password.";
+    code = "missing";
   } else {
     const supabase = await createClient();
-    const { error: authError } = await supabase.auth.signInWithPassword({ email, password });
-    if (authError) error = "Email or password is incorrect.";
-    else if (!(await isAllowedAdmin(email))) {
+    const { data, error: authError } = await supabase.auth.signInWithPassword({ email, password });
+    if (authError || !data.user) code = "bad-credentials";
+    else if (!(await isAllowedAdmin(data.user))) {
       await supabase.auth.signOut();
-      error = "That account isn't on the admin list. Ask the owner to add it.";
+      code = "not-allowed";
     }
   }
-  if (error) go("/admin/login", { error });
+  if (code) go("/admin/login", { error: code });
   redirect("/admin");
 }
 
@@ -160,18 +167,22 @@ export async function saveItem(formData: FormData) {
       if (updErr) throw new Error(updErr.message);
     }
 
-    const { error: delErr } = await admin.from("menu_item_tiers").delete().eq("item_id", savedId);
-    if (delErr) throw new Error(delErr.message);
+    // Upsert the submitted sizes first, then drop the ones no longer offered, so a failure never leaves an item without prices.
     if (tiers.length) {
-      const { error: tierErr } = await admin.from("menu_item_tiers").insert(tiers.map((t) => ({ ...t, item_id: savedId })));
+      const { error: tierErr } = await admin.from("menu_item_tiers").upsert(tiers.map((t) => ({ ...t, item_id: savedId })), { onConflict: "item_id,code" });
       if (tierErr) throw new Error(tierErr.message);
     }
+    const keep = tiers.map((t) => t.code);
+    const query = admin.from("menu_item_tiers").delete().eq("item_id", savedId);
+    const { error: delErr } = keep.length ? await query.not("code", "in", `(${keep.join(",")})`) : await query;
+    if (delErr) throw new Error(delErr.message);
     updateTag(CONTENT_TAG);
   } catch (e) {
     error = message(e, "Could not save the item.");
   }
 
-  if (error) go(`/admin/menu/${id || "new"}`, { error });
+  // If a new item was already created before the failure, land on its page so a retry edits it instead of duplicating it.
+  if (error) go(`/admin/menu/${savedId || "new"}`, { error });
   go(`/admin/menu/${savedId}`, { ok: "1" });
 }
 
@@ -300,7 +311,6 @@ export async function saveHours(formData: FormData) {
 }
 
 // ---------- promotions -------------------------------------------------------
-const toIso = (s: string) => (s ? new Date(s).toISOString() : null);
 
 export async function savePromotion(formData: FormData) {
   await requireAdmin();
@@ -313,15 +323,16 @@ export async function savePromotion(formData: FormData) {
       title,
       body: nullable(str(formData, "body")),
       cta_label: nullable(str(formData, "cta_label")),
-      cta_url: nullable(str(formData, "cta_url")),
-      starts_at: toIso(str(formData, "starts_at")),
-      ends_at: toIso(str(formData, "ends_at")),
+      cta_url: ctaUrlOrNull(str(formData, "cta_url")),
+      starts_at: localInputToIso(str(formData, "starts_at")),
+      ends_at: localInputToIso(str(formData, "ends_at")),
       is_active: bool(formData, "is_active"),
       sort_order: int(str(formData, "sort_order")),
     };
     if (row.starts_at && row.ends_at && row.ends_at < row.starts_at) throw new Error("The end date is before the start date.");
     const file = formData.get("image");
     if (file instanceof File && file.size > 0) row.image_url = await uploadImage(file, "promotions", slugify(title));
+    else if (bool(formData, "remove_image")) row.image_url = null;
     const admin = createAdminClient();
     const { error: e } = id ? await admin.from("promotions").update(row).eq("id", id) : await admin.from("promotions").insert(row);
     if (e) throw new Error(e.message);

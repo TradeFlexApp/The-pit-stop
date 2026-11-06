@@ -101,7 +101,7 @@ async function loadFromSupabase(): Promise<SiteContent> {
       }
     : staticContent.location;
 
-  const promotions = ((promotionsRes.data ?? []) as Promotion[]).map((p) => ({ title: p.title, body: p.body, cta_label: p.cta_label, cta_url: p.cta_url }));
+  const promotions = ((promotionsRes.data ?? []) as Promotion[]).map((p) => ({ title: p.title, body: p.body, cta_label: p.cta_label, cta_url: p.cta_url, image_url: p.image_url }));
 
   return {
     location,

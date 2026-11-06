@@ -1,8 +1,11 @@
+import Image from "next/image";
 import { Suspense } from "react";
 import { requireAdmin } from "@/lib/admin/auth";
 import { adminPromotions } from "@/lib/admin/data";
 import { deletePromotion, savePromotion } from "@/lib/admin/actions";
 import { Button, Card, Checkbox, Field, Input, Notice, Textarea } from "@/components/admin/ui";
+import { PhotoInput } from "@/components/admin/PhotoInput";
+import { isoToLocalInput } from "@/lib/zoned-time";
 import type { Promotion } from "@/types/database";
 import AdminLoading from "../../loading";
 
@@ -16,7 +19,6 @@ export default function PromotionsAdminPage({ searchParams }: { searchParams: Se
   );
 }
 
-const local = (iso: string | null) => (iso ? new Date(iso).toISOString().slice(0, 16) : "");
 
 function PromotionForm({ promo }: { promo?: Promotion }) {
   return (
@@ -34,15 +36,26 @@ function PromotionForm({ promo }: { promo?: Promotion }) {
       <Field label="Button link" hint="e.g. /#menu or a full https:// link">
         <Input name="cta_url" defaultValue={promo?.cta_url ?? ""} />
       </Field>
-      <Field label="Starts" hint="Optional">
-        <Input name="starts_at" type="datetime-local" defaultValue={local(promo?.starts_at ?? null)} />
+      <Field label="Starts" hint="Optional, Fort McMurray time">
+        <Input name="starts_at" type="datetime-local" defaultValue={isoToLocalInput(promo?.starts_at ?? null)} />
       </Field>
-      <Field label="Ends" hint="Optional">
-        <Input name="ends_at" type="datetime-local" defaultValue={local(promo?.ends_at ?? null)} />
+      <Field label="Ends" hint="Optional, Fort McMurray time">
+        <Input name="ends_at" type="datetime-local" defaultValue={isoToLocalInput(promo?.ends_at ?? null)} />
       </Field>
-      <Field label="Image" hint="Optional">
-        <Input name="image" type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="h-auto py-2" />
-      </Field>
+      <div className="text-sm sm:col-span-2">
+        <span className="font-semibold">Image (optional)</span>
+        <div className="mt-1 flex items-start gap-4">
+          {promo?.image_url && (
+            <span className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-mist">
+              <Image src={promo.image_url} alt="" fill sizes="64px" className="object-cover" />
+            </span>
+          )}
+          <div className="flex-1">
+            <PhotoInput hint="JPG, PNG or WEBP. Resized automatically." />
+            {promo?.image_url && <Checkbox name="remove_image" label="Remove the current image" className="mt-2" />}
+          </div>
+        </div>
+      </div>
       <Field label="Order">
         <Input name="sort_order" type="number" defaultValue={promo?.sort_order ?? 0} />
       </Field>

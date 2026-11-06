@@ -13,16 +13,21 @@ function envAllowlist(): string[] {
     .filter(Boolean);
 }
 
-/** True when the email is in ADMIN_EMAILS or in public.admin_users. */
-export async function isAllowedAdmin(email: string): Promise<boolean> {
-  const e = email.toLowerCase();
-  if (envAllowlist().includes(e)) return true;
+/**
+ * True when the signed-in account is an admin: a public.admin_users row bound to the
+ * account id (preferred), or an email listed in ADMIN_EMAILS. Public sign-up must stay
+ * disabled in Supabase so an allowlisted address cannot be claimed by a stranger.
+ */
+export async function isAllowedAdmin(user: User): Promise<boolean> {
+  const email = user.email?.toLowerCase();
+  if (!email) return false;
   try {
-    const { data } = await createAdminClient().from("admin_users").select("user_id").eq("email", e).maybeSingle();
-    return Boolean(data);
+    const { data } = await createAdminClient().from("admin_users").select("user_id").eq("user_id", user.id).maybeSingle();
+    if (data) return true;
   } catch {
-    return false;
+    /* table missing or unreachable: fall through to the env allowlist */
   }
+  return envAllowlist().includes(email);
 }
 
 /** The signed-in user if they are an allowed admin, otherwise null. */
@@ -34,7 +39,7 @@ export async function getAdminUser(): Promise<User | null> {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user?.email) return null;
-  return (await isAllowedAdmin(user.email)) ? user : null;
+  return (await isAllowedAdmin(user)) ? user : null;
 }
 
 /** Use at the top of admin server components / actions. Redirects when not allowed. */

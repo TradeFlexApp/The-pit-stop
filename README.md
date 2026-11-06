@@ -60,15 +60,19 @@ Staff edit the menu, prices and sizes, photos, hours, delivery links, social lin
 
 Setting up the first admin:
 
-1. Supabase Dashboard → Authentication → Users → **Add user** (email + password, tick "auto confirm").
-2. Allow that email either with the env var `ADMIN_EMAILS=you@example.com,other@example.com` (local `.env.local` and Vercel),
-   or by running in the SQL editor:
+1. Supabase Dashboard → Authentication → Sign In / Providers → turn **off** "Allow new users to sign up".
+   Admin accounts are created by hand, and leaving sign-up on would let a stranger register an allowlisted address.
+   (The local stack already ships with `enable_signup = false` in `supabase/config.toml`.)
+2. Authentication → Users → **Add user** (email + password, tick "auto confirm").
+3. Allow that account. Preferred: bind it by account id in the SQL editor (do this after the user exists):
 
    ```sql
    insert into public.admin_users (user_id, email)
    select id, email from auth.users where email = 'you@example.com';
    ```
-3. Sign in at `/admin/login`.
+   Alternative: `ADMIN_EMAILS=you@example.com,other@example.com` (local `.env.local` and Vercel). Only list addresses whose
+   accounts already exist in Authentication → Users.
+4. Sign in at `/admin/login`.
 
 Photos upload to the public Supabase Storage bucket `menu-images` (created by the migration).
 The website falls back to the bundled content in `src/data/menu.json` until the database has data,

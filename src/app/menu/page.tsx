@@ -5,6 +5,7 @@ import { DeliveryPlatforms } from "@/components/site/DeliveryPlatforms";
 import { Footer } from "@/components/site/Footer";
 import { Header } from "@/components/site/Header";
 import { MenuSection } from "@/components/site/MenuSection";
+import { PromoStrip } from "@/components/site/PromoStrip";
 import { StickyOrderBar } from "@/components/site/StickyOrderBar";
 
 export const metadata: Metadata = {
@@ -18,6 +19,7 @@ export default async function MenuPage() {
     <>
       <Header solid />
       <main className="pt-16 md:pt-20">
+        <PromoStrip promotions={content.promotions} />
         <MenuSection categories={content.categories} tiers={content.tiers} level={1} />
         <DeliveryPlatforms location={content.location} />
       </main>

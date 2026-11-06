@@ -30,7 +30,12 @@ export default function LoginPage({ searchParams }: { searchParams: Search }) {
 async function LoginForm({ searchParams }: { searchParams: Search }) {
   const { error } = await searchParams;
   const configured = hasPublicSupabaseEnv();
-  const friendly = error === "not-allowed" ? "That account isn't on the admin list. Ask the owner to add it." : error;
+  const MESSAGES: Record<string, string> = {
+    missing: "Enter your email and password.",
+    "bad-credentials": "Email or password is incorrect.",
+    "not-allowed": "That account isn't on the admin list. Ask the owner to add it.",
+  };
+  const friendly = error ? (MESSAGES[error] ?? "Sign-in failed. Please try again.") : undefined;
   return (
     <form action={signIn} className="space-y-4 rounded-2xl border border-line bg-white p-6">
       {!configured && (

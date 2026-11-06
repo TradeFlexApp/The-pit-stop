@@ -602,7 +602,7 @@
       "title": "Breakfast till 11",
       "body": "Egg sandwiches, hash browns and High Octane coffee from open until 11 AM, Monday to Saturday.",
       "cta_label": "See breakfast",
-      "cta_url": "#menu",
+      "cta_url": "/menu#breakfast",
       "is_active": true,
       "sort_order": 1
     }

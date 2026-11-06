@@ -10,6 +10,7 @@ import { Header } from "@/components/site/Header";
 import { Hero } from "@/components/site/Hero";
 import { LocationSection } from "@/components/site/LocationSection";
 import { Marquee } from "@/components/site/Marquee";
+import { PromoStrip } from "@/components/site/PromoStrip";
 import { StickyOrderBar } from "@/components/site/StickyOrderBar";
 import { TiersSection } from "@/components/site/TiersSection";
 import { ValueProps } from "@/components/site/ValueProps";
@@ -25,6 +26,7 @@ export default async function Home() {
       <Header />
       <main>
         <Hero location={content.location} />
+        <PromoStrip promotions={content.promotions} />
         <FeaturedStrip items={featured} />
         <Marquee items={["Crispy edges. Juicy centres.", "Fort McMurray built", "Breakfast till 11", "1500 · 2500 · 3500", "Smashed to order"]} />
 

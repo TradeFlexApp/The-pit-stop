@@ -77,6 +77,7 @@ export interface PromotionView {
   body: string | null;
   cta_label: string | null;
   cta_url: string | null;
+  image_url: string | null;
 }
 
 export interface FaqView {

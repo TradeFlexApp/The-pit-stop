@@ -73,7 +73,7 @@ export const staticContent: SiteContent = {
   tiers: tierInfo,
   addons: raw.burger_addons.options.map((o) => ({ name: o.name, price_delta_cents: o.price_delta_cents })),
   categories,
-  promotions: raw.promotions.map((p) => ({ title: p.title, body: p.body ?? null, cta_label: p.cta_label ?? null, cta_url: p.cta_url ?? null })),
+  promotions: raw.promotions.map((p) => ({ title: p.title, body: p.body ?? null, cta_label: p.cta_label ?? null, cta_url: p.cta_url ?? null, image_url: null })),
   faqs: raw.faqs,
   value_props: raw.value_props,
 };

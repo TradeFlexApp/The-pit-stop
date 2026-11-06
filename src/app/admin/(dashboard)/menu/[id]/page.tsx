@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Suspense } from "react";
 import { requireAdmin } from "@/lib/admin/auth";
 import { notFound } from "next/navigation";
+import { z } from "zod";
+import { PhotoInput } from "@/components/admin/PhotoInput";
 import { adminCategories, adminItem } from "@/lib/admin/data";
 import { deleteItem, saveItem } from "@/lib/admin/actions";
 import { Button, Card, Checkbox, Field, Input, LinkButton, Notice, Select, Textarea, dollars } from "@/components/admin/ui";
@@ -23,6 +25,7 @@ async function ItemEditor({ params, searchParams }: { params: Params; searchPara
   await requireAdmin(); // request-time auth check; also keeps this page off the build-time prerender
   const [{ id }, { ok, error }, categories] = await Promise.all([params, searchParams, adminCategories()]);
   const isNew = id === "new";
+  if (!isNew && !z.uuid().safeParse(id).success) notFound();
   const item = isNew ? null : await adminItem(id);
   if (!isNew && !item) notFound();
 
@@ -94,9 +97,10 @@ async function ItemEditor({ params, searchParams }: { params: Params; searchPara
               {item?.image_url && <Image src={item.image_url} alt="" fill sizes="128px" className="object-cover" />}
             </div>
             <div className="space-y-3">
-              <Field label="Upload a new photo" hint="JPG, PNG or WEBP, under 8 MB. Square photos look best.">
-                <Input name="image" type="file" accept="image/jpeg,image/png,image/webp,image/avif" className="h-auto py-2" />
-              </Field>
+              <label className="block text-sm">
+                <span className="font-semibold">Upload a new photo</span>
+                <PhotoInput hint="JPG, PNG or WEBP. Big phone photos are resized automatically. Square photos look best." />
+              </label>
               {item?.image_url && <Checkbox name="remove_image" label="Remove the current photo" />}
             </div>
           </div>
